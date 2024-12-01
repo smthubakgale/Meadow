@@ -1,9 +1,8 @@
 // Get elements
 const topNav = document.querySelector('.top-nav');
 const sideNav = document.querySelector('.side-nav');
-const mainContent = document.querySelector('.main-content');
-const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-const mobileNav = document.querySelector('.mobile-nav');
+const docsNav = document.querySelector('.docs-nav');
+const mainContent = document.querySelector('.main-content'); 
 const sections = document.querySelectorAll('.section');
 const navLinks = document.querySelectorAll('.nav-link');
 const subNavTriggers = document.querySelectorAll('.dropdown');
@@ -11,21 +10,23 @@ const subNavs = document.querySelectorAll('.sub-nav');
 const modals = document.querySelectorAll('.modal');
 const accordionTriggers = document.querySelectorAll('.accordion');
 const alertCloseButtons = document.querySelectorAll('.alert .close-button');
+const asideToggle = document.querySelector('.aside-toggle'); 
 
 // Add event listeners
 navLinks.forEach(link => link.addEventListener('click', handleNavLinkClick));
 subNavTriggers.forEach(trigger => trigger.addEventListener('mouseover', handleSubNavTrigger));
-subNavTriggers.forEach(trigger => trigger.addEventListener('mouseout', handleSubNavTrigger));
-mobileNavToggle.addEventListener('click', handleMobileNavToggle);
+subNavTriggers.forEach(trigger => trigger.addEventListener('mouseout', handleSubNavTrigger)); 
 accordionTriggers.forEach(trigger => trigger.addEventListener('click', handleAccordionTrigger));
 alertCloseButtons.forEach(button => button.addEventListener('click', handleAlertClose));
 
 // Functions
 function handleNavLinkClick(event) {
-event.preventDefault();
-const targetSection = document.querySelector(`#${event.target.getAttribute('href').substring(1)}`);
-sections.forEach(section => section.classList.remove('active'));
-targetSection.classList.add('active');
+  event.preventDefault();
+  
+  const targetSection = document.querySelector(`#${event.target.getAttribute('href').substring(1)}`);
+  sections.forEach(section => section.classList.remove('active'));
+  targetSection.classList.add('active');
+  sideNav.classList.remove('mob-nav');
 }
 
 function handleSubNavTrigger(event) {
@@ -35,10 +36,6 @@ subNav.style.display = 'block';
 } else {
 subNav.style.display = 'none';
 }
-}
-
-function handleMobileNavToggle() {
-mobileNav.classList.toggle('active');
 }
 
 function handleAccordionTrigger(event) {
@@ -72,26 +69,26 @@ init();
 
 // Add event listener for window resize
 window.addEventListener('resize', () => {
-if (window.innerWidth > 768) {
-mobileNav.classList.remove('active');
-}
+  
+  if (window.innerWidth > 768) {
+   
+  } 
 });
-/*
-// Add event listener to checkboxes
-document.addEventListener("DOMContentLoaded", function () {
-  var checkboxes = document.querySelectorAll(".side-nav .docs-nav input[type='checkbox']");
 
-  checkboxes.forEach(function (checkbox) {
-    checkbox.addEventListener("click", function () {
-      var label = checkbox.nextElementSibling;
-      var ul = label.nextElementSibling;
-
-      if (checkbox.checked) {
-        ul.style.display = "block";
-      } else {
-        ul.style.display = "none";
-      }
-    });
-  });
+asideToggle.addEventListener('click', () => { 
+   if(sideNav.classList.contains('mob-nav')){
+      sideNav.classList.remove('mob-nav');
+   }
+   else{
+      sideNav.classList.add('mob-nav');
+   }
 });
-*/
+
+document.addEventListener('click', (event) => { 
+  if (!docsNav.contains(event.target) && sideNav.contains(event.target)) { 
+    sideNav.classList.remove('mob-nav');
+  }
+});
+
+// Check if mobile device
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
